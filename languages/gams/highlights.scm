@@ -10,7 +10,10 @@
 (block_comment_dollar) @comment
 
 ; ---------- Dollar directives ($include, $set, $ifThen, ...) -----------
-(dollar_directive) @keyword.directive
+; Colour only the $name keyword as a directive; the argument tail is
+; left unstyled so strings, numbers, and identifiers inside it pick up
+; the surrounding theme's default text colour.
+(dollar_directive_keyword) @keyword.directive
 
 ; ---------- String / number / macro literals ---------------------------
 (string)    @string
