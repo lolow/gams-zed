@@ -1,0 +1,57 @@
+name = "GAMS"
+grammar = "gams"
+
+# .gms — main GAMS source files
+# .inc — included fragments (often parameter / set data)
+# .lst — listing files; included so they get the GAMS comment-color treatment
+#        even though they have a different fine structure.
+path_suffixes = ["gms", "inc", "lst"]
+
+# Column-1 '*' is the canonical GAMS line comment. The trailing space matches
+# Zed's prefix-style toggle behaviour. The parser anchors at column 0; Zed's
+# Toggle Comment will insert '* ' but is not column-aware, so users may need
+# to manually re-align after toggling on indented code.
+line_comments = ["* "]
+
+# GAMS '%macro%' references and '$directive' tokens use these characters as
+# part of identifiers for completion / word selection.
+word_characters = ["$", "%"]
+
+[[brackets]]
+start = "("
+end = ")"
+close = true
+newline = true
+
+[[brackets]]
+start = "["
+end = "]"
+close = true
+newline = true
+
+[[brackets]]
+start = "{"
+end = "}"
+close = true
+newline = true
+
+[[brackets]]
+start = "\""
+end = "\""
+close = true
+newline = false
+not_in = ["string", "comment"]
+
+[[brackets]]
+start = "'"
+end = "'"
+close = true
+newline = false
+not_in = ["string", "comment"]
+
+[[brackets]]
+start = "%"
+end = "%"
+close = true
+newline = false
+not_in = ["string", "comment"]

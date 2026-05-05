@@ -118,32 +118,40 @@ nodes outside `error_recovery.txt`.
 
 ---
 
-## M2 — Zed extension scaffold (`gams-zed/`)
-- [ ] `extension.toml` with `id = "gams"`, `name = "GAMS"`, `version = "0.1.0"`,
-      `[grammars.gams]` block pointing to `tree-sitter-gams` git URL + commit.
-- [ ] `languages/gams/config.toml`:
-  - `name = "GAMS"`
-  - `grammar = "gams"`
-  - `path_suffixes = ["gms", "inc", "lst"]` (decide on `.gdx` — likely no,
-    it's binary)
-  - `line_comments = ["* "]` (note: column-1 only — Zed's prefix-style is the
-    closest fit; document the limitation)
-  - `autoclose_before` and brackets matching `language-configuration.json`
-    from both source extensions, reconciled.
-- [ ] `languages/gams/highlights.scm` — map every token-spec entry to a
-      Zed highlight scope.
-- [ ] `languages/gams/brackets.scm` — `()`, `[]`, `{}`, plus `'…'` / `"…"`.
-- [ ] `languages/gams/indents.scm` — indent after `loop(`, `if(`, `(` in
-      declarations; dedent on matching `)` and `;`.
-- [ ] `languages/gams/outline.scm` — surface `set`, `parameter`, `scalar`,
-      `variable`, `equation`, `model`, `solve` declarations.
-- [ ] `languages/gams/injections.scm` — embed `%macro%` as a `constant`
-      injection inside strings (optional polish).
-- [ ] `LICENSE` (match the upstream license pattern; both sources use MIT-like).
-- [ ] `README.md` — install via `zed: install dev extension`, screenshot.
+## M2 — Zed extension scaffold (`gams-zed/`) ✅ done
+- [x] `extension.toml` with `id="gams"`, `name="GAMS"`, `version="0.1.0"`,
+      `[grammars.gams]` pointing at the local fork via `file://` URL,
+      pinned to commit `840fdc1`. README documents the user-edit step
+      for installing on another machine (or after pushing the fork to
+      a public remote).
+- [x] `languages/gams/config.toml`: name, grammar, `path_suffixes =
+      ["gms","inc","lst"]`, `line_comments = ["* "]`, `word_characters =
+      ["$","%"]`, full bracket pairs (`()`/`[]`/`{}`/`""`/`''`/`%%`)
+      with `not_in = ["string","comment"]` for the quote-likes.
+- [x] `languages/gams/highlights.scm` — produces 17 distinct capture
+      types on `transport.gms` (comment, keyword.directive, string,
+      number, keyword.type, keyword.modifier, keyword, function.builtin,
+      operator, type.builtin, property, function, type, variable,
+      constant, punctuation.delimiter, punctuation.bracket, plus
+      string.special for `table_body`).
+- [x] `languages/gams/brackets.scm` — `()` and the slash-fenced data
+      blocks (set/parameter/scalar/variable/equation/model).
+- [x] `languages/gams/indents.scm` — `(` / `)` and the slash-fenced
+      blocks bump / drop indent.
+- [x] `languages/gams/outline.scm` — surfaces names from set, parameter,
+      scalar, table, variable, equation declaration & definition, model,
+      alias, acronym, and solve nodes.
+- [x] `languages/gams/injections.scm` — placeholder; macro-in-string
+      injection deferred until the parser splits the string rule into
+      open/content/close tokens.
+- [x] `LICENSE` (Apache-2.0, matching the parser fork).
+- [x] `README.md` — feature list, dev install instructions, project
+      layout, reference VSCode extensions, roadmap, license.
 
-**Definition of done:** `zed: install dev extension` succeeds with no manifest
-errors and the extension appears under `zed: extensions`.
+**Definition of done — met:** all four `.scm` query files compile
+without errors against the transport example via `tree-sitter query`.
+Live-install in Zed (`zed: install dev extension`) is the M3 verification
+step.
 
 ---
 

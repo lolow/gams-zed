@@ -1,0 +1,21 @@
+id = "gams"
+name = "GAMS"
+description = "Syntax highlighting and language configuration for GAMS (General Algebraic Modeling System)."
+version = "0.1.0"
+schema_version = 1
+authors = ["lolow <ldrouet@pm.me>"]
+repository = "https://github.com/lolow/gams-zed"
+
+# Grammar source.
+#
+# Local development: the `file://` URL below points to the sibling
+# `tree-sitter-gams/` working tree on this machine. To install on another
+# machine, either (a) push the parser to a public git repository and
+# replace `repository` with that URL, or (b) edit `repository` to the
+# absolute path of your local clone.
+#
+# The pinned `rev` is the head of the local fork — see
+# ../tree-sitter-gams/NOTICE for upstream attribution.
+[grammars.gams]
+repository = "file:///home/lolow/Sync/06-DEVEL/gams-language/tree-sitter-gams"
+rev = "840fdc1d1286be2aa3bfbd161da2a6f5d4acfb77"
