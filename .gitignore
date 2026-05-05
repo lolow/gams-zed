@@ -1,0 +1,3 @@
+# Zed clones the grammar source here when the extension is installed
+# in dev mode. Not part of the source tree.
+grammars/
