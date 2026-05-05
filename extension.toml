@@ -15,4 +15,4 @@ repository = "https://github.com/lolow/gams-zed"
 # v0.1.0 tag in tree-sitter-gams.
 [grammars.gams]
 repository = "https://github.com/lolow/tree-sitter-gams"
-rev = "52c966e931f8aee18a5e7601646772763a4856a5"
+rev = "2a2964103a9be035e937c13e1b6983c3c836282d"
