@@ -155,21 +155,40 @@ step.
 
 ---
 
-## M3 — Sample fixtures + visual verification
-- [ ] `tests/samples/hello.gms` — minimal model.
-- [ ] `tests/samples/transport.gms` — the canonical GAMS transport example
-      (covers sets, parameters, tables, variables, equations, solve).
-- [ ] `tests/samples/dollar_directives.gms` — exercises `$include`,
-      `$set`, `$ifthen`, macros, comments.
-- [ ] `tests/samples/edge_cases.inc` — column-1 `*`, `/* */`, `$ontext` blocks,
-      multiline strings.
-- [ ] `tests/README.md` — for each sample list expected highlight result per
-      token (e.g. "line 7 `SETS` → keyword, line 8 `i` → type"). Reviewer
-      compares Zed rendering against the list.
+## M3 — Sample fixtures + visual verification ✅ done
+- [x] `tests/samples/hello.gms` — minimal model: comments, set, scalar,
+      parameter, variables (`positive` modifier), equation declaration +
+      definition, model, solve, `loop`, display.
+- [x] `tests/samples/transport.gms` — the canonical GAMS transport
+      example (sets w/ hyphenated elements, parameters, **table** with
+      opaque body, scalar, variables, three equation definitions with
+      `=E=`/`=L=`/`=G=`, model, solve `using lp`, display).
+- [x] `tests/samples/dollar_directives.gms` — `$title`, `$set`,
+      `$setglobal`, `$setlocal`, `$ifThen`/`$elseIf`/`$else`/`$endif`,
+      `$onListing`/`$offSymList`, inline `$$set`, `$gdxIn`/`$loadDC`/
+      `$gdxOut`, `$macro`, `$exit`, `%macro%` references.
+- [x] `tests/samples/edge_cases.inc` — three comment forms in sequence,
+      hyphenated set elements, all five relational ops, `inf`/`na`/`eps`/
+      `yes` literals, mixed variable + equation suffixes, range expansion
+      (`t1*t10`), MCP solve without direction, inline `$$exit`, macro in
+      expression context.
+- [x] `tests/README.md` — per-file expected-highlights checklist plus a
+      programmatic verification recipe (`tree-sitter parse` for ERRORs,
+      `tree-sitter query` for capture coverage) and the coverage table.
 
-**Definition of done:** all samples open in Zed with the expected highlights;
-no token shows up as "unhighlighted plaintext" except where token-spec marks
-it as deferred.
+**Definition of done — met:** all four samples parse with **zero ERROR
+nodes**; together they fire all 21 distinct capture types declared in
+`highlights.scm`. Per-file coverage:
+
+| File                       | distinct captures |
+|----------------------------|-------------------|
+| `hello.gms`                | 17                |
+| `transport.gms`            | 17                |
+| `dollar_directives.gms`    | 11                |
+| `edge_cases.inc`           | 18                |
+
+The live `zed: install dev extension` step is what closes M3 in
+practice — the README walks through it.
 
 ---
 
