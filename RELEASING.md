@@ -98,6 +98,34 @@ For a **version bump** of an already-submitted extension:
 - Tag the GitHub release on `gams-zed` with the same `vX.Y.Z` and
   paste the changelog entry into the release body.
 
+## Zed packaging constraints (lessons from v0.1.0)
+
+Three issues bit us on the first install; if you change the parser or the
+extension's grammar pin, watch for these:
+
+1. **`pathspec '<tag>' did not match …`**
+   Zed's grammar fetcher does a shallow clone of the source at
+   `[grammars.<id>].repository`. From a `file://` URL it does not pull
+   tags. *Fix:* pin `rev` to a commit SHA for local development, switch
+   to a tag name only when the parser is on a public HTTPS remote.
+
+2. **`no such file or directory: 'src/parser.c'`**
+   Zed does not run `tree-sitter generate` on the grammar; it expects
+   `src/parser.c`, `src/grammar.json`, `src/node-types.json`, and
+   `src/tree_sitter/*.h` to be checked into the parser repo. The
+   convention every published `tree-sitter-*` repo follows. Don't put
+   those files in `.gitignore` — only ignore `node_modules/` and
+   `package-lock.json`. CI keeps the generated artefacts in sync via
+   `tree-sitter generate` on every push.
+
+3. **`Failed to instantiate Wasm module: invalid import '<libc-fn>'`**
+   The grammar (parser.c + scanner.c) is compiled to WebAssembly. WASM
+   provides no libc, so anything from `<ctype.h>` (`tolower`, `isalpha`,
+   `isdigit`, …) or `<stdlib.h>` (beyond `malloc`/`free` which the
+   tree-sitter runtime supplies) breaks loading. Hand-roll equivalents
+   for ASCII inputs — see `ascii_tolower` in
+   `../tree-sitter-gams/src/scanner.c`.
+
 ## Versioning policy
 
 Semantic versioning. Patch releases for bug fixes only. A change that
