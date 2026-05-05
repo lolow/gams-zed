@@ -22,4 +22,4 @@ repository = "file:///home/lolow/Sync/06-DEVEL/gams-language/tree-sitter-gams"
 # clone that doesn't pull tags from a file:// source, so we point at
 # the commit directly. After publishing the parser to a public remote,
 # you can switch this back to `rev = "v0.1.0"`.
-rev = "9bfbace6746eedfab00fa1e92c4fb4eb214626df"
+rev = "550befd38b45f3fab9b6022885068fbbcc14b2d9"
