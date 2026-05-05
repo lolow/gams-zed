@@ -10,11 +10,53 @@
 (block_comment_dollar) @comment
 
 ; ---------- Dollar directives ($include, $set, $ifThen, ...) -----------
-; Colour the $name keyword as a directive; the argument tail picks up
-; the surrounding theme's default text colour, except for the
-; $if/$ifThen test-words (set/exist/declared/...) below, which are
-; coloured the same as the directive itself.
+; Colour every $name keyword as a directive — generic ones plus the
+; structurally-tracked control directives.
 (dollar_directive_keyword) @keyword.directive
+(ifthen_keyword)           @keyword.directive
+(elseif_keyword)           @keyword.directive
+(else_keyword)             @keyword.directive
+(endif_keyword)            @keyword.directive
+(onecho_keyword)           @keyword.directive
+(offecho_keyword)          @keyword.directive
+(onput_keyword)            @keyword.directive
+(offput_keyword)           @keyword.directive
+(onembedded_keyword)       @keyword.directive
+(offembedded_keyword)      @keyword.directive
+
+; Label suffix on a directive keyword (the `.cb` in `$ifthen.cb`).
+; Same scope as the keyword so they appear as one continuous ribbon.
+(directive_label) @keyword.directive
+
+; ---------- Mismatched control-block labels ---------------------------
+; Strict label pairing for $ifthen ... $endif. tree-sitter LR cannot
+; enforce semantic equality at parse time, but #not-eq? in a query
+; can. The mismatched directive_label nodes are captured as @invalid;
+; most Zed themes render @invalid red / underlined, drawing attention
+; to the label typo. Captures stack on top of the earlier
+; @keyword.directive capture — Zed picks the more specific scope.
+
+((ifthen_block
+   (ifthen_directive (directive_label) @invalid)
+   (endif_directive  (directive_label) @_close))
+ (#not-eq? @invalid @_close))
+
+((ifthen_block
+   (ifthen_directive (directive_label) @_open)
+   (endif_directive  (directive_label) @invalid))
+ (#not-eq? @_open @invalid))
+
+((ifthen_block
+   (ifthen_directive (directive_label) @invalid)
+   (elseif_clause
+     (elseif_directive (directive_label) @_eif)))
+ (#not-eq? @invalid @_eif))
+
+((ifthen_block
+   (ifthen_directive (directive_label) @invalid)
+   (else_clause
+     (else_directive (directive_label) @_else)))
+ (#not-eq? @invalid @_else))
 
 ; Test-words inside $if / $ifThen condition expressions. Each space-
 ; separated word in directive args is its own `directive_text` node;
