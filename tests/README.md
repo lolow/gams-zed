@@ -122,11 +122,18 @@ Run from `tree-sitter-gams/`:
 
 | File                       | ERRORs | distinct captures fired |
 |----------------------------|--------|-------------------------|
-| `hello.gms`                | 0      | 17                      |
-| `transport.gms`            | 0      | 17 (incl. `string.special`) |
-| `dollar_directives.gms`    | 0      | 11                      |
-| `edge_cases.inc`           | 0      | 18                      |
-| **All four together**      | **0**  | **21** (every capture)  |
+| `hello.gms`                | 0      | 16                      |
+| `transport.gms`            | 0      | 16 (incl. `string.special`) |
+| `dollar_directives.gms`    | 0      | 10                      |
+| `edge_cases.inc`           | 0      | 17                      |
+| **All four together**      | **0**  | **20** (every capture)  |
+
+`@type` was deliberately dropped from declaration names (set, parameter,
+scalar, variable, equation, model, alias, acronym, solve model) —
+they render plain to avoid drawing attention to one-letter set names
+like `set e`. `@type.builtin` (model types `lp/nlp/mip/...`) is still
+captured. The captures are commented out in `highlights.scm` for
+easy restoration.
 
 If an ERROR appears or a capture goes missing, the cause is almost
 always one of:

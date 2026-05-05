@@ -74,21 +74,24 @@
   name: (identifier_with_domain
     (identifier) @function))
 
-; ---------- Solve statement: model + objective slots ------------------
-(solve_statement
-  model: (identifier) @type)
-(solve_statement
-  objective: (identifier) @variable)
-
+; ---------- Solve statement: objective slot ---------------------------
+; The model name and objective are plain identifiers — no special scope
+; (matches the convention that declaration NAMES are not highlighted).
+;
 ; ---------- Set / parameter / scalar / variable / equation entries ----
-; The first identifier in each entry is the symbol being declared.
-(set_entry       (identifier) @type)
-(scalar_entry    (identifier) @type)
-(param_entry     (identifier) @type)
-(var_entry       (identifier) @type)
-(eq_entry        (identifier) @type)
-(model_entry     (identifier) @type)
-(acronym_declaration (identifier) @type)
+; Declaration names (the symbol being introduced) render plain so a
+; one-letter set like `set e ...` doesn't visually compete with set
+; elements or expression identifiers. If you want them coloured back
+; in, restore the captures below — `@type` is the conventional scope.
+;
+; (set_entry           (identifier) @type)
+; (scalar_entry        (identifier) @type)
+; (param_entry         (identifier) @type)
+; (var_entry           (identifier) @type)
+; (eq_entry            (identifier) @type)
+; (model_entry         (identifier) @type)
+; (acronym_declaration (identifier) @type)
+; (solve_statement     model: (identifier) @type)
 
 ; Domain identifiers inside identifier_with_domain are existing set names.
 (identifier_with_domain
