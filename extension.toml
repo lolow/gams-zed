@@ -18,4 +18,8 @@ repository = "https://github.com/lolow/gams-zed"
 # ../tree-sitter-gams/NOTICE for upstream attribution.
 [grammars.gams]
 repository = "file:///home/lolow/Sync/06-DEVEL/gams-language/tree-sitter-gams"
-rev = "v0.1.0"
+# Commit SHA of the v0.1.0 tag. Zed's grammar fetcher does a shallow
+# clone that doesn't pull tags from a file:// source, so we point at
+# the commit directly. After publishing the parser to a public remote,
+# you can switch this back to `rev = "v0.1.0"`.
+rev = "9bfbace6746eedfab00fa1e92c4fb4eb214626df"
