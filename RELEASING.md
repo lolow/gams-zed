@@ -126,6 +126,14 @@ extension's grammar pin, watch for these:
    for ASCII inputs — see `ascii_tolower` in
    `../tree-sitter-gams/src/scanner.c`.
 
+4. **`missing required capture in injections … query: content or injection.content`**
+   Zed auto-loads every `.scm` file under `languages/<lang>/`. An empty
+   `injections.scm` (or one without an `@injection.content` capture)
+   triggers this error and the language fails to load. If there's
+   nothing to inject yet, **delete the file** rather than leaving a
+   placeholder — Zed simply skips injection processing when the file
+   isn't present.
+
 ## Versioning policy
 
 Semantic versioning. Patch releases for bug fixes only. A change that
