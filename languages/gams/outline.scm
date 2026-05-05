@@ -3,12 +3,18 @@
 ; Each top-level declaration becomes one outline item. The leading
 ; keyword (set/parameter/...) is captured as @context so it shows beside
 ; the symbol name in the outline tree.
+;
+; Declaration entries can hold the name in either of two shapes:
+;   set_entry → name_with_macros (`eqfoo_%clt%`) or identifier_with_domain (`set(i)`)
+;   …_with_domain wraps an `identifier`; name_with_macros's first child
+;   is also an identifier (the leading non-macro chunk).
 
 ; --- set declarations ---
 (set_declaration
   (set_keyword) @context
   (set_entry
-    (identifier) @name)) @item
+    (name_with_macros
+      (identifier) @name))) @item
 
 (set_declaration
   (set_keyword) @context
@@ -20,7 +26,8 @@
 (parameter_declaration
   (parameter_keyword) @context
   (param_entry
-    (identifier) @name)) @item
+    (name_with_macros
+      (identifier) @name))) @item
 
 (parameter_declaration
   (parameter_keyword) @context
@@ -32,7 +39,8 @@
 (scalar_declaration
   (scalar_keyword) @context
   (scalar_entry
-    (identifier) @name)) @item
+    (name_with_macros
+      (identifier) @name))) @item
 
 ; --- table declarations ---
 (table_declaration
@@ -48,7 +56,8 @@
 (variable_declaration
   (variable_keyword) @context
   (var_entry
-    (identifier) @name)) @item
+    (name_with_macros
+      (identifier) @name))) @item
 
 (variable_declaration
   (variable_keyword) @context
@@ -60,7 +69,8 @@
 (equation_declaration
   (equation_keyword) @context
   (eq_entry
-    (identifier) @name)) @item
+    (name_with_macros
+      (identifier) @name))) @item
 
 (equation_declaration
   (equation_keyword) @context
