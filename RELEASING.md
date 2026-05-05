@@ -134,6 +134,21 @@ extension's grammar pin, watch for these:
    placeholder — Zed simply skips injection processing when the file
    isn't present.
 
+5. **`folds.scm` may or may not be honoured.**
+   Syntax-aware folding via `folds.scm` is tracked in
+   [zed-industries/zed#22703](https://github.com/zed-industries/zed/issues/22703)
+   and not yet shipped as of mid-2026; Zed currently folds based on
+   indentation only. We pre-seeded `languages/gams/folds.scm` with
+   `@fold` captures for every paired block (ifthen/onecho/onput/
+   onembedded, block comments, slash-fenced data blocks, equation
+   definitions, control-flow statements). When Zed lands the feature
+   the file activates with no parser change.
+
+   If a future Zed version errors on this file the way an empty
+   `injections.scm` does, delete it and revisit when the feature
+   becomes documented in [Zed's language-extension docs]
+   (https://zed.dev/docs/extensions/languages).
+
 ## Versioning policy
 
 Semantic versioning. Patch releases for bug fixes only. A change that
