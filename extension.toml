@@ -8,6 +8,11 @@ repository = "https://github.com/lolow/gams-zed"
 
 # Grammar source. Apache-2.0 fork of Schlegen/tree-sitter-gams; see
 # the parser repo's NOTICE for upstream attribution.
+#
+# Zed's grammar fetcher does a shallow clone (--depth 1) that does
+# NOT pull tags — even from HTTPS remotes — so we pin the rev to a
+# commit SHA, not a tag name. The SHA below is the head of the
+# v0.1.0 tag in tree-sitter-gams.
 [grammars.gams]
 repository = "https://github.com/lolow/tree-sitter-gams"
-rev = "v0.1.0"
+rev = "52c966e931f8aee18a5e7601646772763a4856a5"

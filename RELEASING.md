@@ -105,9 +105,11 @@ extension's grammar pin, watch for these:
 
 1. **`pathspec '<tag>' did not match …`**
    Zed's grammar fetcher does a shallow clone of the source at
-   `[grammars.<id>].repository`. From a `file://` URL it does not pull
-   tags. *Fix:* pin `rev` to a commit SHA for local development, switch
-   to a tag name only when the parser is on a public HTTPS remote.
+   `[grammars.<id>].repository`. The shallow clone does NOT pull
+   tags — true for `file://`, true for `https://`, true for `ssh://`.
+   *Fix:* always pin `rev` to a commit SHA, never a tag name. Bumps
+   between releases are a one-line edit; the SHA-vs-tag inconvenience
+   is a one-time annoyance.
 
 2. **`no such file or directory: 'src/parser.c'`**
    Zed does not run `tree-sitter generate` on the grammar; it expects
