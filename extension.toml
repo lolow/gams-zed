@@ -6,20 +6,8 @@ schema_version = 1
 authors = ["lolow <ldrouet@pm.me>"]
 repository = "https://github.com/lolow/gams-zed"
 
-# Grammar source.
-#
-# Local development: the `file://` URL below points to the sibling
-# `tree-sitter-gams/` working tree on this machine. To install on another
-# machine, either (a) push the parser to a public git repository and
-# replace `repository` with that URL, or (b) edit `repository` to the
-# absolute path of your local clone.
-#
-# The pinned `rev` is the head of the local fork — see
-# ../tree-sitter-gams/NOTICE for upstream attribution.
+# Grammar source. Apache-2.0 fork of Schlegen/tree-sitter-gams; see
+# the parser repo's NOTICE for upstream attribution.
 [grammars.gams]
-repository = "file:///home/lolow/Sync/06-DEVEL/gams-language/tree-sitter-gams"
-# Commit SHA of the v0.1.0 tag. Zed's grammar fetcher does a shallow
-# clone that doesn't pull tags from a file:// source, so we point at
-# the commit directly. After publishing the parser to a public remote,
-# you can switch this back to `rev = "v0.1.0"`.
-rev = "63b530d9f051b3d2b4e35b3dd5563f9f40ad8d3e"
+repository = "https://github.com/lolow/tree-sitter-gams"
+rev = "v0.1.0"
