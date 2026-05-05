@@ -10,10 +10,19 @@
 (block_comment_dollar) @comment
 
 ; ---------- Dollar directives ($include, $set, $ifThen, ...) -----------
-; Colour only the $name keyword as a directive; the argument tail is
-; left unstyled so strings, numbers, and identifiers inside it pick up
-; the surrounding theme's default text colour.
+; Colour the $name keyword as a directive; the argument tail picks up
+; the surrounding theme's default text colour, except for the
+; $if/$ifThen test-words (set/exist/declared/...) below, which are
+; coloured the same as the directive itself.
 (dollar_directive_keyword) @keyword.directive
+
+; Test-words inside $if / $ifThen condition expressions. Each space-
+; separated word in directive args is its own `directive_text` node;
+; the #match? predicate filters to the GAMS-defined keywords. Pattern
+; is anchored end-to-end so partial matches like `note` don't trigger.
+((directive_text) @keyword.directive
+ (#match? @keyword.directive
+   "^([nN][oO][tT]|[aA][nN][dD]|[oO][rR]|[xX][oO][rR]|[iI][mM][pP]|[eE][qQ][vV]|[sS][eE][tT]|[dD][eE][cC][lL][aA][rR][eE][dD]|[dD][eE][fF][iI][nN][eE][dD]|[eE][xX][iI][sS][tT]|[sS][eE][tT][eE][nN][vV]|[eE][rR][rR][oO][rR][fF][rR][eE][eE]|[eE][rR][rR][oO][rR][lL][eE][vV][eE][lL]|[wW][aA][rR][nN][iI][nN][gG]|[dD][sS][eE][tT]|[dD][pP][aA][rR]|[dD][vV][aA][rR]|[dD][eE][qQ][nN]|[dD][mM][oO][dD]|[dD][fF][uU][nN]|[dD][aA][cC][rR]|[eE][qQ]|[nN][eE]|[gG][tT]|[gG][eE]|[lL][tT]|[lL][eE])$"))
 
 ; ---------- String / number / macro literals ---------------------------
 (string)    @string
