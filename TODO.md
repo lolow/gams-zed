@@ -37,35 +37,59 @@ is usable for Zed highlighting:
 
 ---
 
-## M1 — Fork & patch `tree-sitter-gams` (sibling repo `../tree-sitter-gams/`)
-Strategy: fork `Schlegen/tree-sitter-gams` to keep its working core (sets,
-parameters, scalars, variables, equations declarations, models, solve,
-display, loops, if/elseif, indexed operators, built-ins, assignments,
-attribute references). Apache-2.0 → just retain `LICENSE` + add NOTICE.
+## M1 — Fork & patch `tree-sitter-gams` (sibling repo `../tree-sitter-gams/`) ✅ done
+Cloned `Schlegen/tree-sitter-gams` to `../tree-sitter-gams/`. 11 commits
+on top of upstream HEAD `78dd717` (see `../tree-sitter-gams/git log`):
 
-- [ ] Fork the repo, clone next to `gams-zed/` as `../tree-sitter-gams/`.
-- [ ] **Replace** the `comment` rule with three rules:
-  - `line_comment`: `^\*[^\n]*` (column-1 only — use external scanner since
-    Tree-sitter's `extras` can't easily express column-1).
-  - `block_comment`: case-insensitive `(^\$|\$\$)ontext … (^\$|\$\$)offtext`.
-  - `block_comment_c`: `/\*…\*/`.
-  - Wire all three into `extras`; remove the broken `#` rule.
-- [ ] Add `dollar_directive`: `$\$?[A-Za-z][A-Za-z_0-9]*` token, with a
-      curated `directive_keyword` lookup for highlight selection (per §5).
-- [ ] Add `macro_ref`: `%[A-Za-z_][A-Za-z_0-9]*%` and `%\d+%` (numeric arg).
-- [ ] Add `table_declaration` (§6.4) — declaration form, table data block
-      defer to §15 / TODO entry already in upstream `Todo.md`.
-- [ ] Add `equation_definition` (§7) with all relational ops `=e=/=l=/=g=/=n=/=x=`
-      (and `=c=/=b=` as polish).
-- [ ] Add `model_type` (§8.4) — recognised as a keyword inside `solve`.
-- [ ] Extend `variable_attribute_keyword` (S calls it that) with the equation
-      suffixes from §11.2 (`range`, `slack`, `slackup`, `slacklo`, `infeas`).
-- [ ] Add `INF`, `NA`, `EPS` to `bool` (rename to `literal_constant`).
-- [ ] Add range expansion `*` between two set-element identifiers / numbers
-      (already partly there in S — verify with `t1*t10`).
-- [ ] Add `option`/`abort`/`acronym` statements (upstream Todo lists these too).
-- [ ] Run `npx tree-sitter generate` cleanly.
-- [ ] `npx tree-sitter test` — corpus passes (see Tests below).
+- [x] Fork repo + add NOTICE + `tree-sitter.json` (ABI 15 build).
+- [x] **Comment rule rewrite** via external scanner (`src/scanner.c`):
+      column-0 `*` line comments, `$ontext`/`$offtext` (single-$ at col 0
+      or `$$` anywhere), `/* */` C-style. The scanner skips its own
+      leading whitespace because tree-sitter only calls externals once
+      per parser step, before the lexer's whitespace skip.
+- [x] `dollar_directive`: scanner-emitted token consuming `$<name>` (col 0)
+      or `$$<name>` (anywhere) through end of line; dispatches to the block-
+      comment branch when the name is `ontext`. Wired as a top-level node
+      alongside `statement` in `source_file`.
+- [x] `macro_ref`: regex token `%[A-Za-z_]\w*%` and `%\d+`; added as an
+      expression alternative.
+- [x] `equation_definition`: `name[(domain)][\$cond] .. lhs <op> rhs ;`
+      with `=e=/=l=/=g=/=n=/=x=/=c=/=b=`. Required a new conflict
+      declaration between `identifier_with_domain_args` and `index_element`.
+- [x] `table_declaration`: keyword + name + optional description + opaque
+      `table_body` token through next `;` (2D layout intentionally not
+      modelled — adds no value for highlighting).
+- [x] `model_type`: case-insensitive choice over the 15 GAMS solver types
+      with `prec(1)` to win the lexer tie-break against `identifier`.
+- [x] `bool` extended to literal_constant covering `yes/no/inf/na/eps`;
+      `scalar_value_block` now accepts either number or literal.
+- [x] `solve_statement`: direction+objective made optional in the
+      `using <type>` form so `solve m using mcp;` parses.
+- [x] `variable_attribute_keyword` extended with equation suffixes
+      (`range`, `slack`, `slacklo`, `slackup`, `infeas`) and the missing
+      variable suffixes (`prior`, `stage`).
+- [x] `option`, `abort[.noError]`, `acronym(s)` statements added.
+- [x] `element_entry` accepts both `set_element` (allows hyphens) and
+      `identifier` so `san-diego` parses.
+- [x] Test fixtures converted from upstream's `#`-style to real `*` line
+      comments.
+- [x] `npx tree-sitter generate` clean (no LR(1) conflicts beyond the
+      explicit one declared).
+
+**Definition of done — met:** the canonical `transport.gms` example
+parses with **zero ERROR nodes**. Upstream test files unchanged in error
+count; remaining ERRORs (`assignments`, `code_sample`, `control_flow`,
+`display`, `parameters`) are pre-existing upstream gaps in expression
+and parameter-data-block parsing, out of scope for M1.
+
+### Tests for M1 (Tree-sitter corpus)
+Upstream `Schlegen/tree-sitter-gams/test/*.gms` files use `#`-prefixed comments
+(matching the broken comment rule). After the comment-rule rewrite, **regenerate**
+those fixtures with real GAMS comments, then add corpus tests under
+`../tree-sitter-gams/test/corpus/*.txt`. Each file is a list of
+`==== name ====` blocks with input followed by `---` and the expected sexp tree.
+Cover at minimum:
+- [ ] `comments.txt` — column-1 `*`, `$ontext` block, `/* */`, mixed.
 
 ### Tests for M1 (Tree-sitter corpus)
 Upstream `Schlegen/tree-sitter-gams/test/*.gms` files use `#`-prefixed comments
