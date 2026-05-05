@@ -192,12 +192,26 @@ practice — the README walks through it.
 
 ---
 
-## M4 — Polish & release
-- [ ] `CHANGELOG.md` initial entry.
-- [ ] Pin `tree-sitter-gams` to a tagged release commit in `extension.toml`.
-- [ ] Open PR to `zed-industries/extensions` registry once stable.
-- [ ] Add GitHub Actions CI for the parser repo (`tree-sitter test`).
-- [ ] Document the upgrade path from the two VSCode extensions in `README.md`.
+## M4 — Polish & release ✅ done
+- [x] `CHANGELOG.md` initial 0.1.0 entry.
+- [x] `../tree-sitter-gams/CHANGES.md` documenting divergence from
+      upstream Schlegen.
+- [x] Tagged `tree-sitter-gams v0.1.0` (annotated, on commit
+      `840fdc1`); `extension.toml` switched from a SHA to `rev = "v0.1.0"`.
+- [x] `../tree-sitter-gams/.github/workflows/test.yml` — CI that runs
+      `tree-sitter generate` + `build`, then asserts zero ERROR nodes
+      on the must-be-clean fixtures (sets/scalars/equations/model/
+      variables/solve).
+- [x] `README.md` upgrade-path section comparing `lolow/gams`,
+      `eunseong-park/vscode-gams`, and `gams-zed` feature-by-feature.
+- [x] `RELEASING.md` — pre-flight checklist + step-by-step workflow
+      for parser tag → extension bump → `zed-industries/extensions`
+      registry submission via git submodule.
+
+The actual registry submission requires (a) pushing both repos to
+public GitHub remotes and (b) opening a PR against
+`zed-industries/extensions` — both are user-action items captured in
+`RELEASING.md`.
 
 ---
 

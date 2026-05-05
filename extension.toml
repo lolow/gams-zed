@@ -18,4 +18,4 @@ repository = "https://github.com/lolow/gams-zed"
 # ../tree-sitter-gams/NOTICE for upstream attribution.
 [grammars.gams]
 repository = "file:///home/lolow/Sync/06-DEVEL/gams-language/tree-sitter-gams"
-rev = "840fdc1d1286be2aa3bfbd161da2a6f5d4acfb77"
+rev = "v0.1.0"

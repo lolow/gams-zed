@@ -86,6 +86,34 @@ served as the specification source while the parser was being patched:
 - [`eunseong-park/vscode-gams`](https://github.com/eunseong-park/vscode-gams)
   — feature-rich extension with run / listing / GDX commands
 
+## Upgrading from the VSCode extensions
+
+If you used either VSCode extension before, this is what carries over
+and what doesn't:
+
+| Feature | `lolow/gams` | `eunseong-park/vscode-gams` | `gams-zed` |
+|---|---|---|---|
+| Column-1 `*` line comments | ✅ | ✅ | ✅ |
+| `$ontext`/`$offtext` block | ✅ | ✅ | ✅ |
+| `/* */` block | ✅ | ✅ | ✅ |
+| `// `, `!! ` line comments | ✅ | ✅ | ❌ (require `$eolcom`-state tracking) |
+| `%macro%` highlighting | ✅ | ✅ | ✅ outside strings; ❌ inside strings |
+| Dollar directives | curated list | extensive list | ✅ — every `$<name>` line is a single `@keyword.directive` token |
+| `=e=/=l=/=g=/=x=` operators | ✅ | ✅ | ✅ + adds `=n=`, `=c=`, `=b=` |
+| Solver model types (`lp/nlp/…`) | ❌ | ✅ | ✅ |
+| Variable suffixes (`.l/.lo/.up/.fx/.scale/.m`) | ✅ | ✅ extensive | ✅ + equation suffixes (`.range`, `.slack`, `.infeas`) |
+| `MODEL`/`ALIAS`/`ACRONYM`/`FILE` storage type | partial | ✅ | ✅ |
+| `INF`/`NA`/`EPS` numeric sentinels | ✅ | ✅ | ✅ |
+| Symbol outline | ❌ | partial | ✅ — sets, parameters, scalars, tables, variables, equations (decl + def), models, alias/acronym, solve |
+| Run GAMS / open listing / GDX | ❌ | ✅ | ❌ — would need a Zed extension API + Rust/WASM crate; deferred post-1.0 |
+| `.lst` listing-file syntax | ❌ | partial | ❌ — deferred post-1.0 |
+| MPSGE bridge directives | ❌ | partial | ❌ — deferred (highlighted as generic `@keyword.directive`) |
+| Embedded code (`$onEmbeddedCode python: …`) | ❌ | partial | ❌ — body falls inside `dollar_directive` lines, not injected |
+
+In short: the **highlighting** part of `vscode-gams` is at parity or
+better; the **run / build / listing-file** integration is intentionally
+out of scope for this release.
+
 ## Roadmap
 
 See [`TODO.md`](./TODO.md). Next milestones:
