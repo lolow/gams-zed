@@ -98,9 +98,16 @@
   (identifier_with_domain_args (identifier) @variable))
 
 ; ---------- Set elements ---------------------------------------------
-(set_element)         @constant
+; Set elements (literal values inside `set foo / a, b, c /`) and the
+; parts of a multi-dimensional tuple element (`co2.co2_daccs`) all
+; render with the @type scope. Most themes colour @type yellow, which
+; makes the catalogue of set members stand out from declaration
+; names (which we deliberately leave plain).
+(set_element)             @type
 (element_entry
-  (identifier) @constant)
+  (identifier) @type)
+(element_entry
+  (set_element) @type)
 
 ; ---------- Bare identifiers in expressions --------------------------
 (bare_identifier) @variable
