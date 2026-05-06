@@ -11,8 +11,7 @@ repository = "https://github.com/lolow/gams-zed"
 #
 # Zed's grammar fetcher does a shallow clone (--depth 1) that does
 # NOT pull tags — even from HTTPS remotes — so we pin the rev to a
-# commit SHA, not a tag name. The SHA below is the head of the
-# v0.1.0 tag in tree-sitter-gams.
+# commit SHA, not a tag name.
 [grammars.gams]
 repository = "https://github.com/lolow/tree-sitter-gams"
-rev = "2a2964103a9be035e937c13e1b6983c3c836282d"
+rev = "958efa652116be078413df688ba291b5714564ac"

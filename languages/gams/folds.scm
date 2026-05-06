@@ -8,10 +8,10 @@
 ; If your Zed install errors on this file, delete it — that means
 ; folds.scm is still unsupported. RELEASING.md gotcha #5.
 
-; --- $ifthen / $elseIf / $else / $endif block ----------------------
-(ifthen_block) @fold
-
 ; --- $onEcho / $offEcho block --------------------------------------
+; ($ifthen / $endif is no longer a structural block — those directives
+;  now parse generically via the extras path, so there is no
+;  ifthen_block node to fold here.)
 (onecho_block) @fold
 
 ; --- $onPut / $offPut block ----------------------------------------
