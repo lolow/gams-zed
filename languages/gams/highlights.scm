@@ -130,30 +130,27 @@
 (identifier_with_domain
   (identifier_with_domain_args (identifier) @variable))
 
-; ---------- Set elements ---------------------------------------------
-; Set elements (literal values inside `set foo / a, b, c /`) and the
-; parts of a multi-dimensional tuple element (`co2.co2_daccs`) all
-; render with the @type scope. Most themes colour @type yellow, which
-; makes the catalogue of set members stand out from declaration
-; names (which we deliberately leave plain).
-(set_element)             @type
+; ---------- Set element declarations vs. references ------------------
+; Two structurally non-overlapping contexts, so resolution order
+; (first-wins vs. last-wins) is irrelevant — each set_element node
+; matches at most one of these patterns.
+;
+; Declaration site — the catalogue of members inside a set's
+;   /a, b, c/ block, or the components of a multi-dimensional tuple
+;   element (co2.co2_daccs). Render @type (yellow in most themes).
 (element_entry
   (identifier) @type)
 (element_entry
   (set_element) @type)
 
-; ---------- Set element REFERENCES inside data blocks ----------------
-; Inside parameter / variable / equation data blocks, the leading
-; element of a param_assignment / *_attr_assignment is a reference
-; to an already-declared set element, not a declaration. Capture it
-; as @constant so themes render these reference keys distinctly
-; from the catalogue-style colouring used for declaration entries.
-; Captures in tree-sitter queries are right-to-left: more specific
-; later patterns override the general `(set_element) @type` above
-; for elements occurring inside `index_atom`.
+; Reference site — the leading key of a param_assignment /
+;   eq_attr_assignment / var_attr_assignment, plus any other
+;   set_element occurring inside an index_atom. These are KEY
+;   references binding data to existing set members. Render
+;   @attribute so themes show them distinct from declarations.
 (index_atom
   (set_element_selection
-    (set_element) @constant))
+    (set_element) @attribute))
 
 ; ---------- Bare identifiers in expressions --------------------------
 (bare_identifier) @variable
