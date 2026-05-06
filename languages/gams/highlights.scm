@@ -142,6 +142,19 @@
 (element_entry
   (set_element) @type)
 
+; ---------- Set element REFERENCES inside data blocks ----------------
+; Inside parameter / variable / equation data blocks, the leading
+; element of a param_assignment / *_attr_assignment is a reference
+; to an already-declared set element, not a declaration. Capture it
+; as @constant so themes render these reference keys distinctly
+; from the catalogue-style colouring used for declaration entries.
+; Captures in tree-sitter queries are right-to-left: more specific
+; later patterns override the general `(set_element) @type` above
+; for elements occurring inside `index_atom`.
+(index_atom
+  (set_element_selection
+    (set_element) @constant))
+
 ; ---------- Bare identifiers in expressions --------------------------
 (bare_identifier) @variable
 
