@@ -155,10 +155,17 @@
 ; ---------- Bare identifiers in expressions --------------------------
 (bare_identifier) @variable
 
-; ---------- Macro / option / table body content ----------------------
-; Table body is opaque; mark it as a string-ish region so it stays
-; visually grouped.
-(table_body) @string.special
+; ---------- Table body cells ----------------------------------------
+; Table cells (column headers + row keys) render as @attribute,
+; mirroring the colouring used for set element references inside
+; a param_data_block. Numeric cells inside the table inherit
+; @number from the global rule above; @bool inherits
+; @constant.builtin. Together this gives a table the same visual
+; vocabulary as a parameter data block.
+(table_body
+  (identifier) @attribute)
+(table_body
+  (set_element) @attribute)
 
 ; ---------- Punctuation ----------------------------------------------
 [
