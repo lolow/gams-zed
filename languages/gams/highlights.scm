@@ -88,11 +88,24 @@
 (variable_attribute_keyword) @property
 
 ; ---------- Equation definition: name slot is the equation name -------
+; The name field can be a bare identifier, a domain-qualified
+; identifier (foo(i,j)), OR — when the name carries %macro% chunks —
+; a name_with_macros at either the top level (foo_%clt%) or as the
+; head of identifier_with_domain (foo_%clt%(i,j)). Capture only the
+; leading identifier in the macro cases so the %macro% segment keeps
+; its @constant.macro scope.
 (equation_definition
   name: (identifier) @function)
 (equation_definition
   name: (identifier_with_domain
     (identifier) @function))
+(equation_definition
+  name: (name_with_macros
+    (identifier) @function))
+(equation_definition
+  name: (identifier_with_domain
+    (name_with_macros
+      (identifier) @function)))
 
 ; ---------- Solve statement: objective slot ---------------------------
 ; The model name and objective are plain identifiers — no special scope
