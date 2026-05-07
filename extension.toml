@@ -14,4 +14,4 @@ repository = "https://github.com/lolow/gams-zed"
 # commit SHA, not a tag name.
 [grammars.gams]
 repository = "https://github.com/lolow/tree-sitter-gams"
-rev = "e8cd485158f5b82f111252a0997308b05400216e"
+rev = "58c288ce912062caa2cb0a24906d3d13482934ec"
