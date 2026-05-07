@@ -85,15 +85,20 @@
 (model_type) @type.builtin
 
 ; ---------- Suffix attributes (.l, .lo, .up, .range, ...) -------------
-(variable_attribute_keyword) @property
+; Captured as @attribute (the same scope used for set element
+; references inside data blocks). @property is more semantically
+; precise but renders the same as default text in many themes,
+; including the one in use here; @attribute is reliably rendered
+; distinctly across the common Zed themes.
+(variable_attribute_keyword) @attribute
 
-; The leading '.' on a suffix reference gets the same @property
-; scope so '.l' / '.lo' / '.up' / '.m' / '.scale' render as one
-; visual unit instead of a bare dot followed by a coloured suffix.
-(reference "." @property)
-(indexed_reference "." @property)
-(var_attr_assignment "." @property)
-(eq_attr_assignment "." @property)
+; The leading '.' gets the same scope so '.l' / '.lo' / '.up' /
+; '.m' / '.scale' render as one visual unit rather than an
+; uncoloured dot followed by a coloured suffix.
+(reference "." @attribute)
+(indexed_reference "." @attribute)
+(var_attr_assignment "." @attribute)
+(eq_attr_assignment "." @attribute)
 
 ; ---------- Equation definition: name slot is the equation name -------
 ; The name field can be a bare identifier, a domain-qualified
