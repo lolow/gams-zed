@@ -79,7 +79,7 @@
 (binary_operator_keyword) @operator
 (equation_definition_op)  @operator
 (equation_relational_op)  @operator
-(unary_expr ["+" "-"] @operator)
+(unary_expr ["+" "-" "not"] @operator)
 
 ; ---------- Solver model types (lp / nlp / mip / ...) -----------------
 (model_type) @type.builtin
