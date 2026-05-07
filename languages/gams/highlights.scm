@@ -87,6 +87,14 @@
 ; ---------- Suffix attributes (.l, .lo, .up, .range, ...) -------------
 (variable_attribute_keyword) @property
 
+; The leading '.' on a suffix reference gets the same @property
+; scope so '.l' / '.lo' / '.up' / '.m' / '.scale' render as one
+; visual unit instead of a bare dot followed by a coloured suffix.
+(reference "." @property)
+(indexed_reference "." @property)
+(var_attr_assignment "." @property)
+(eq_attr_assignment "." @property)
+
 ; ---------- Equation definition: name slot is the equation name -------
 ; The name field can be a bare identifier, a domain-qualified
 ; identifier (foo(i,j)), OR — when the name carries %macro% chunks —
